@@ -46,17 +46,17 @@ export default {
       api.get('/account/list')
         .then(response => {
           this.accounts = response.data;
-          // this.calculateStatistics(response.data);
+          this.calculateStatistics(response.data);
         })
         .catch(error => {
           console.error("Error fetching account list:", error);
         });
     },
-    // calculateStatistics(data) {
-    //   this.totalAccounts = data.length;
-    //   this.totalBalance = data.reduce((sum, account) => sum + account.balance, 0);
-    //   this.averageBalance = this.totalAccounts ? this.totalBalance / this.totalAccounts : 0;
-    // }
+    calculateStatistics(data) {
+      this.totalAccounts = data.length;
+      this.totalBalance = data.reduce((sum, account) => sum + account.balance, 0);
+      this.averageBalance = this.totalAccounts ? this.totalBalance / this.totalAccounts : 0;
+    }
   }
 };
 </script>
