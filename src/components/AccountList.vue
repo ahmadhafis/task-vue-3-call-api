@@ -19,8 +19,8 @@
       <v-card-title>Summary</v-card-title>
       <v-card-text>
         <p><strong>Total Accounts:</strong> {{ totalAccounts }}</p>
-        <p><strong>Total Balance:</strong> ${{ totalBalance }}</p>
-        <p><strong>Average Balance:</strong> ${{ averageBalance.toFixed(2) }}</p>
+        <p><strong>Total Balance:</strong> Rp {{ totalBalance }}</p>
+        <p><strong>Average Balance:</strong> Rp {{ averageBalance.toFixed(2) }}</p>
       </v-card-text>
     </v-card>
   </v-container>
