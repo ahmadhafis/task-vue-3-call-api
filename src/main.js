@@ -1,5 +1,7 @@
 // import './assets/main.css'
 
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+
 //Vuetify
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
@@ -14,6 +16,7 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
+import axios from 'axios'
 
 const vuetify = createVuetify({
   components,
