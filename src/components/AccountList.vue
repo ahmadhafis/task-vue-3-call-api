@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card>
-      <v-card-title>Account List</v-card-title>
+      <v-card-title style="background-color: antiquewhite;">Account List</v-card-title>
       <v-card-text>
         <v-list>
           <v-list-item v-for="account in accounts" :key="account.id">
@@ -16,7 +16,7 @@
     </v-card>
 
     <v-card class="mt-4">
-      <v-card-title>Summary</v-card-title>
+      <v-card-title style="background-color: aquamarine;">Summary</v-card-title>
       <v-card-text>
         <p><strong>Total Accounts:</strong> {{ totalAccounts }}</p>
         <p><strong>Total Balance:</strong> Rp {{ totalBalance }}</p>
@@ -27,38 +27,43 @@
 </template>
 
 <script>
-import api from '@/plugins/api';
+import axios from 'axios';
 
-export default {
-  data() {
-    return {
-      accounts: [],
-      totalAccounts: 0,
-      totalBalance: 0,
-      averageBalance: 0
-    };
-  },
-  created() {
-    this.fetchAccounts();
-  },
-  methods: {
-    fetchAccounts() {
-      api.get('/account/list')
-        .then(response => {
-          this.accounts = response.data;
-          // this.calculateStatistics(response.data);
-        })
-        .catch(error => {
-          console.error("Error fetching account list:", error);
-        });
+  export default {
+    data() {
+      return {
+        accounts: [],
+        error: null,
+      };
     },
-    // calculateStatistics(data) {
-    //   this.totalAccounts = data.length;
-    //   this.totalBalance = data.reduce((sum, account) => sum + account.balance, 0);
-    //   this.averageBalance = this.totalAccounts ? this.totalBalance / this.totalAccounts : 0;
-    // }
-  }
-};
+    computed: {
+      totalAccounts() {
+        return this.accounts.length;
+      },
+      totalBalance() {
+        return this.accounts.reduce((acc, account) => acc + account.balance, 0);
+      },
+      averageBalance() {
+        return this.totalBalance / this.totalAccounts || 0;
+      },
+    },
+    methods: {
+      async fetchAccounts() {
+        try {
+          const response = await axios.get('http://localhost:8080/account/list');
+          this.accounts = response.data.data;
+        } catch (error) {
+          this.error = error.message || 'An error occurred';
+        }
+      },
+      formatCurrency(value) {
+        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(value);
+      },
+    },
+    created() {
+      this.fetchAccounts();
+    },
+  };
 </script>
 
 <style scoped>
